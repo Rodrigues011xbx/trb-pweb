@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do list 📄✍🏻</title>
+    <link rel="shortcut icon" href="download.png" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: rgb(241, 236, 236);
+        }
+
+        h1 {
+            color: blue;
+        }
+
+        #minhaLista {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+            margin-top: 30px;
+        }
+
+        #minhaLista li {
+            margin-bottom: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        #minhaLista li::before {
+            content: "•";
+            margin-right: 5px;
+            color: purple;
+        }
+
+        input[type="text"],
+        input[type="date"] {
+            padding: 5px;
+            margin-right: 5px;
+        }
+
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        #desen {
+            text-align: center;
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: white;
+            padding: 10px;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1 id="titulo">Manipulação do Dom</h1>
+    <p id="demo">Bem-vindo ao coding Dojo!</p>
+    <button id="changeText">Alterar o texto</button>
+    <ul id="minhaLista"></ul>
+
+    <section id="desen">
+        <input type="text" id="inputItem" placeholder="Digite sua tarefa">
+        <input type="date" id="inputData">
+        <button id="adicionarItem">Adicionar</button>
+        <button id="removerItem">Remover</button>
+    </section>
+
+    <script>
+        const botao = document.getElementById("changeText");
+        const titulo = document.getElementById('titulo');
+        const lista = document.getElementById("minhaLista");
+        const inputItem = document.getElementById("inputItem");
+        const inputData = document.getElementById("inputData");
+        const botaoAdicionar = document.getElementById("adicionarItem");
+        const botaoRemover = document.getElementById("removerItem");
+
+        botao.addEventListener("click", () => {
+            document.getElementById("demo").innerHTML = "Aproveite o nosso site";
+        });
+
+        titulo.addEventListener('mouseover', () => {
+            titulo.style.color = "purple";
+        });
+
+        titulo.addEventListener("mouseout", () => {
+            titulo.style.color = "blue";
+        });
+
+        botaoAdicionar.addEventListener("click", () => {
+            const novoItem = inputItem.value;
+            const novaData = inputData.value;
+
+            if (novoItem && novaData) {
+                const novoElemento = document.createElement("li");
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+
+                novoElemento.appendChild(checkbox);
+                novoElemento.appendChild(document.createTextNode(` Tarefa: ${novoItem}, Data: ${novaData}`));
+
+                lista.insertBefore(novoElemento, lista.firstChild);
+
+                inputItem.value = "";
+                inputData.value = "";
+
+                checkbox.addEventListener("change", function () {
+                    if (this.checked) {
+                        lista.appendChild(this.parentNode);
+                        this.parentNode.style.textDecoration = "line-through";
+                    } else {
+                        lista.insertBefore(this.parentNode, lista.firstChild);
+                        this.parentNode.style.textDecoration = "none";
+                    }
+                });
+            }
+        });
+
+        botaoRemover.addEventListener("click", () => {
+            if (lista.childNodes.length > 0) {
+                lista.removeChild(lista.lastChild);
+            }
+        });
+
+        botaoRemover.addEventListener("click", () => {
+        const tarefasMarcadas = lista.querySelectorAll("input[type='checkbox']:checked");
+
+        tarefasMarcadas.forEach((tarefa) => {
+            lista.removeChild(tarefa.parentNode);
+        });
+    });
+
+
+    </script>
+</body>
+
+</html>
+
+
